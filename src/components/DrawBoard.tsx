@@ -1,30 +1,90 @@
 import { useEffect, useRef, useState, type RefObject } from "react"
-import { LuEraser } from "react-icons/lu"
+import { AiOutlineSound } from "react-icons/ai";
+import { LuEraser, LuRedo2, LuUndo2 } from "react-icons/lu"
+
+interface CanvasHistory {
+    imageData: ImageData | null;
+}
+
 
 export default function DrawBoard() {
+
+    const [audio] = useState(new Audio("/sounds/a.mp3")); // Crea una instancia del objeto Audio
 
     const canvasRef: RefObject<HTMLCanvasElement | null> = useRef(null)
     const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
     const [isDrawing, setIsDrawing] = useState(false)
+
+    //History
+    const [history, setHistory] = useState<CanvasHistory[]>([]);
+    const [historyIndex, setHistoryIndex] = useState(-1);
 
     useEffect(() => {
         const canvas = canvasRef.current
         if (!canvas) return;
         canvas.width = canvas.offsetWidth
         canvas.height = canvas.offsetHeight
-        setCtx(canvas.getContext("2d"))
-    }, [])
+
+        setCtx(canvas.getContext("2d", { willReadFrequently: true }))
+
+        if (!ctx) return;
+        // Inicializa el historial con un estado vacío
+        setHistory([{ imageData: ctx.getImageData(0, 0, canvas.width, canvas.height) || null }]);
+        setHistoryIndex(0);
 
 
-    function startDraw() {
+    }, [ctx])
+
+    const toggleSound = () => {
+        audio.play();
+    };
+
+
+    const saveState = () => {
+        const canvas = canvasRef.current;
+        if (!ctx || !canvas) return;
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        // Crea un nuevo array de historial insertando el nuevo estado después del actual
+        const newHistory = [...history.slice(0, historyIndex + 1), { imageData }];
+        setHistory(newHistory);
+        setHistoryIndex(historyIndex + 1);
+    };
+
+    useEffect(() => {
+        const handleMouseUp = () => {
+            if (!isDrawing) return;
+            setIsDrawing(false);
+            if (!ctx) return;
+            ctx.closePath();
+            saveState();
+        };
+
+        document.addEventListener('mouseup', handleMouseUp);
+
+        // Limpiar los listeners al desmontar el componente
+        return () => {
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [ctx, isDrawing, saveState])
+
+
+    function startDraw(e: React.MouseEvent<HTMLCanvasElement>) {
+        if (e.button !== 0) return;
+
         setIsDrawing(true)
         if (!ctx) return;
         ctx.beginPath()
         ctx.lineWidth = 20;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+
     }
 
     function drawing(e: React.MouseEvent<HTMLCanvasElement>) {
         if (!ctx || !isDrawing) return;
+        //console.log(`x: ${e.nativeEvent.offsetX}, y: ${e.nativeEvent.offsetY}`)
+
         ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
         ctx.stroke();
     }
@@ -33,8 +93,25 @@ export default function DrawBoard() {
         const canvas = canvasRef.current;
         if (!ctx || !canvas) return;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        setHistory([{ imageData: ctx.getImageData(0, 0, canvas.width, canvas.height) || null }]);
+        setHistoryIndex(0);
     };
 
+    const undo = () => {
+        if (historyIndex > 0 && ctx && canvasRef.current) {
+            setHistoryIndex((prevIndex) => prevIndex - 1);
+            const previousState = history[historyIndex - 1];
+            ctx.putImageData(previousState.imageData!, 0, 0);
+        }
+    };
+
+    const redo = () => {
+        if (historyIndex < history.length - 1 && ctx && canvasRef.current) {
+            setHistoryIndex((prevIndex) => prevIndex + 1);
+            const nextState = history[historyIndex + 1];
+            ctx.putImageData(nextState.imageData!, 0, 0);
+        }
+    };
 
     return (
         <>
@@ -45,12 +122,37 @@ export default function DrawBoard() {
                     height={700}
                     onMouseDown={startDraw}
                     onMouseMove={drawing}
-                    onMouseUp={() => setIsDrawing(false)}
                 ></canvas>
+
+                <img
+                    className="w-full h-full absolute inset-0 m-auto pointer-events-none opacity-20"
+                    src="/gifs/a.gif"
+                    alt="GIF animado" // Siempre es bueno añadir un texto alternativo
+                />
+
+                <audio src="/sounds/a.mp3" autoPlay></audio>
 
                 <button onClick={clearCanvas} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl absolute top-0 right-0 m-2">
                     <LuEraser />
                 </button>
+
+                <button onClick={toggleSound} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl absolute bottom-0 right-0 m-2">
+                    <AiOutlineSound />
+
+                </button>
+
+                <div className="absolute top-0 left-0 m-2 inline-flex gap-2 items-center">
+                    <button onClick={undo}
+                        disabled={historyIndex <= 0}
+                        className="w-[50px] cursor-pointer h-[50px] disabled:opacity-30  bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl">
+                        <LuUndo2 />
+                    </button>
+                    <button onClick={redo}
+                        disabled={historyIndex >= history.length - 1}
+                        className={`w-[50px] cursor-pointer h-[50px] disabled:opacity-30 bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl`}>
+                        <LuRedo2 />
+                    </button>
+                </div>
             </div>
         </>
     )

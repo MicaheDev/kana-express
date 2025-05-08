@@ -25,7 +25,7 @@ export default function Learn() {
 
 
       {selectionMenu.map(item => (
-        <Link className="w-full h-1/2 rounded-xl relative flex justify-center items-center" to={item.path} style={{ background: item.color }}>
+        <Link key={item.path} className="w-full h-1/2 rounded-xl relative flex justify-center items-center" to={item.path} style={{ background: item.color }}>
 
           <div className="relative flex flex-col gap-2 z-10 justify-center items-center">
             <h2 className="text-6xl font-bold">{item.label}</h2>

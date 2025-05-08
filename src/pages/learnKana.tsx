@@ -22,7 +22,6 @@ export default function LearnKana() {
     const [selectedCol, setSelectedCol] = useState(1);
 
     function handleNext() {
-        // ... (tu lógica para handleNext)
         if (selectedRow >= (grid.length - 1) && selectedCol >= (grid[grid.length - 1].length - 1)) {
             setSelectedRow(1);
             setSelectedCol(1);
@@ -58,12 +57,12 @@ export default function LearnKana() {
                     <div className="flex" key={`row-${row + 1}`}>
                         {/* Columnas */}
                         {grid[row].map((label, col) => {
-                            const isSelected = selectedRow === row && selectedCol === col ? "bg-amber-200" : ""
+                            const isSelected = selectedRow === row && selectedCol === col ? "bg-blue-300" : ""
                             const isGuide = row === 0 || col === 0 ? 'bg-neutral-100' : "";
                             const isDecoration = row === 0 && col === 0 ? 'bg-neutral-300' : '';
                             return (
                                 <div
-                                    className={`w-[50px] h-[50px] border border-neutral-200 flex justify-center items-center ${isDecoration} ${isGuide} ${isSelected}`}
+                                    className={`w-[50px] h-[50px] border border-neutral-300 flex justify-center items-center ${isDecoration} ${isGuide} ${isSelected}`}
                                     key={`col-${col + 1}`}
                                 >
                                     {label}
