@@ -22,6 +22,7 @@ interface DrawBoardProps {
     setAudio?: React.Dispatch<React.SetStateAction<HTMLAudioElement>>
     gif: string,
     setGif?: React.Dispatch<React.SetStateAction<string>>
+    kanaType: string | undefined
 }
 
 interface Point {
@@ -30,7 +31,7 @@ interface Point {
 }
 
 
-export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDrawing, history, setHistory, historyIndex, setHistoryIndex, audio, gif }: DrawBoardProps) {
+export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDrawing, history, setHistory, historyIndex, setHistoryIndex, audio, gif, kanaType }: DrawBoardProps) {
 
 
     const [isShowEx, setIsShowEx] = useState(true)
@@ -53,6 +54,7 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
     }, [ctx])
 
     const toggleSound = () => {
+        if(!audio.src === null)return;
         audio.play();
     };
 
@@ -177,11 +179,13 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
                     onMouseMove={drawing}
                 ></canvas>
 
-                <img
-                    className={`w-full h-full absolute inset-0 m-auto pointer-events-none transition-opacity duration-300 ${isShowEx ? 'opacity-10' : 'opacity-0'}`}
-                    src={`/gifs/katakana/${gif}`}
-                    alt="GIF animado" // Siempre es bueno añadir un texto alternativo
-                />
+                {
+                    gif && <img
+                        className={`w-full h-full absolute inset-0 m-auto pointer-events-none transition-opacity duration-300 ${isShowEx ? 'opacity-10' : 'opacity-0'}`}
+                        src={`/gifs/${kanaType === 'hiragana' ? 'hiragana' : 'katakana'}/${gif}`}
+                        alt="GIF animado" // Siempre es bueno añadir un texto alternativo
+                    />
+                }
 
 
                 <button onClick={clearCanvas} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl absolute top-0 right-0 m-2">

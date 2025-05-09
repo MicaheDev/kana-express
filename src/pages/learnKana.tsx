@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type RefObject } from "react";
 import DrawBoard from "../components/DrawBoard";
 import { MdCheck, MdOutlineArrowBack } from "react-icons/md";
 import { hiragana, katakana, type Kana } from "../data/kana";
+import { useParams } from "react-router";
 
 
 interface CanvasHistory {
@@ -10,11 +11,14 @@ interface CanvasHistory {
 
 
 
-export default function LearnKana({params}:any) {
+export default function LearnKana() {
+  
 
-
-    const kana = katakana
+    const { kana: kanaType } = useParams<{ kana: string }>();
     
+    // Seleccionar el array basado en el parámetro
+    const kana = kanaType === 'hiragana' ? hiragana : katakana;
+
 
     const [audio, setAudio] = useState(new Audio(`/sounds/${(kana[1][1] as Kana).sound}`)); // Inicializa con el primer sonido
     const [gif, setGif] = useState((kana[1][1] as Kana).gif);
@@ -35,13 +39,14 @@ export default function LearnKana({params}:any) {
         changeMediaSources()
     }, [selectedCol, selectedRow])
 
-   
+
     // Nuevo efecto para reproducir el audio cuando cambia
     useEffect(() => {
+        if (audio.src == null || audio.src.length < 1) return;
         if (audio) {
             audio.play().catch(e => console.log("Error al reproducir audio:", e));
         }
-        
+
         // Limpieza del audio anterior
         return () => {
             if (audio) {
@@ -99,6 +104,7 @@ export default function LearnKana({params}:any) {
     }
 
     function changeMediaSources() {
+        if ((kana[selectedRow][selectedCol] as Kana).sound == null || (kana[selectedRow][selectedCol] as Kana).sound.length < 1) return;
         setAudio(new Audio(`/sounds/${(kana[selectedRow][selectedCol] as Kana).sound}`))
         setGif((kana[selectedRow][selectedCol] as Kana).gif)
     }
@@ -140,7 +146,7 @@ export default function LearnKana({params}:any) {
             </div>
 
             <div className="flex flex-col gap-2">
-                <DrawBoard canvasRef={canvasRef} ctx={ctx} setCtx={setCtx} isDrawing={isDrawing} setIsDrawing={setIsDrawing} history={history} setHistory={setHistory} historyIndex={historyIndex} setHistoryIndex={setHistoryIndex} audio={audio} gif={gif} />
+                <DrawBoard kanaType={kanaType} canvasRef={canvasRef} ctx={ctx} setCtx={setCtx} isDrawing={isDrawing} setIsDrawing={setIsDrawing} history={history} setHistory={setHistory} historyIndex={historyIndex} setHistoryIndex={setHistoryIndex} audio={audio} gif={gif} />
                 <div className="flex items-center gap-2 justify-between">
                     <button onClick={handlePrev} className="bg-black cursor-pointer opacity-100 rounded-full hover:opacity-80 transition-opacity duration-300 inline-flex gap-2 items-center text-white px-4 py-2">
                         <MdOutlineArrowBack /> <span>Volver</span>
