@@ -1,11 +1,13 @@
 import { useEffect, useState, type RefObject } from "react"
 import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineSound } from "react-icons/ai";
 import { LuEraser, LuRedo2, LuUndo2 } from "react-icons/lu"
+import getSvgPathFromStroke from "perfect-freehand"
 
 interface CanvasHistory {
     imageData: ImageData | null;
 }
 
+// Esto es un desastre, necesito ayuda T_T, demasiadas props, me dio hueva hacerlo bien auqnue de todos modos aun no se como hacerlo XD
 interface DrawBoardProps {
     canvasRef: RefObject<HTMLCanvasElement | null>;
     ctx: CanvasRenderingContext2D | null;
@@ -22,11 +24,18 @@ interface DrawBoardProps {
     setGif?: React.Dispatch<React.SetStateAction<string>>
 }
 
+interface Point {
+    x: number;
+    y: number;
+}
+
 
 export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDrawing, history, setHistory, historyIndex, setHistoryIndex, audio, gif }: DrawBoardProps) {
 
 
     const [isShowEx, setIsShowEx] = useState(true)
+    const [currentPoints, setCurrentPoints] = useState<Point[]>([]); // Array para almacenar los puntos del trazo actual
+
     useEffect(() => {
         const canvas = canvasRef.current
         if (!canvas) return;
@@ -80,11 +89,16 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
         if (e.button !== 0) return;
 
         setIsDrawing(true)
+        setCurrentPoints([{ x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY }]); // Inicializa el primer punto
+
         if (!ctx) return;
         ctx.beginPath()
         ctx.lineWidth = 20;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
+
+        ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY); // Mueve al primer punto
+
 
 
     }
@@ -92,9 +106,40 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
     function drawing(e: React.MouseEvent<HTMLCanvasElement>) {
         if (!ctx || !isDrawing) return;
         //console.log(`x: ${e.nativeEvent.offsetX}, y: ${e.nativeEvent.offsetY}`)
+        const newPoint = { x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY };
+        setCurrentPoints(prevPoints => [...prevPoints, newPoint]);
 
-        ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY)
-        ctx.stroke();
+        // Genera el path suavizado usando perfect-freehand
+        const stroke = getSvgPathFromStroke(currentPoints.map(p => [p.x, p.y]), {
+            size: 30, // Grosor del trazo
+            thinning: 0.3, // Influencia de la presión en el grosor (0: sin influencia; > 0: adelgaza con baja presión, engrosa con alta presión/lentitud).
+            smoothing: 0, // Suavizado del trazo (0: muy suave; > 0: esquina cuadradas o rotas) 
+            streamline: 0.7, // Estabilizador del trazo (0: desactivado, mano alzada; > 0: activado, mayor correción)
+        });
+
+
+        // Limpia el trazo anterior y dibuja el nuevo suavizado
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        // Vuelve a dibujar el historial anterior (opcional, si no quieres que se borre mientras dibujas)
+        history.slice(0, historyIndex + 1).forEach(state => {
+            if (state.imageData) {
+                ctx.putImageData(state.imageData, 0, 0);
+            }
+        });
+
+        // Dibuja el nuevo trazo suavizado
+        ctx.beginPath();
+        const path = new Path2D();
+        // Mueve al primer punto del contorno
+        if (stroke.length > 0) {
+            path.moveTo(stroke[0][0], stroke[0][1]);
+
+            // Dibuja líneas a través de los puntos restantes del contorno
+            for (let i = 1; i < stroke.length; i++) {
+                path.lineTo(stroke[i][0], stroke[i][1]);
+            }
+        }
+        ctx.fill(path); // O ctx.stroke(path) si prefieres solo el contorno
     }
 
     const clearCanvas = () => {
@@ -123,7 +168,7 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
 
     return (
         <>
-            <div className="border relative border-neutral-300 rounded-xl overflow-hidden bg-neutral-100">
+            <div className="border select-none relative border-neutral-300 rounded-xl overflow-hidden bg-neutral-100">
                 <canvas
                     ref={canvasRef}
                     width={700}

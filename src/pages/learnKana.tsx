@@ -35,6 +35,23 @@ export default function LearnKana({params}:any) {
         changeMediaSources()
     }, [selectedCol, selectedRow])
 
+   
+    // Nuevo efecto para reproducir el audio cuando cambia
+    useEffect(() => {
+        if (audio) {
+            audio.play().catch(e => console.log("Error al reproducir audio:", e));
+        }
+        
+        // Limpieza del audio anterior
+        return () => {
+            if (audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        };
+    }, [audio]);
+
+
     function handleNext() {
         if (selectedRow >= (kana.length - 1) && selectedCol >= (kana[kana.length - 1].length - 1)) {
             setSelectedRow(1);
@@ -96,15 +113,15 @@ export default function LearnKana({params}:any) {
 
     return (
         <div className="w-full h-[80svh] flex justify-center gap-4">
-            <div className="w-min h-min border-neutral-300 flex flex-col border overflow-hidden rounded-xl">
+            <div className="w-min h-min border-neutral-300 flex flex-col border overflow-hidden rounded-xl select-none">
                 {/* Filas*/}
                 {kana.map((_, row) => (
                     <div className="flex" key={`row-${row + 1}`}>
                         {/* Columnas */}
                         {kana[row].map((item, col) => {
-                            const isSelected = selectedRow === row && selectedCol === col ? "bg-blue-300" : ""
-                            const isGuide = row === 0 || col === 0 ? 'bg-neutral-100' : "";
-                            const isDecoration = row === 0 && col === 0 ? 'bg-neutral-300' : '';
+                            const isSelected = selectedRow === row && selectedCol === col ? "bg-blue-300 select-none" : ""
+                            const isGuide = row === 0 || col === 0 ? 'bg-neutral-100 select-none' : "select-text";
+                            const isDecoration = row === 0 && col === 0 ? 'bg-neutral-300 select-none' : '';
                             return (
                                 <div
                                     className={`w-[50px] h-[50px] border border-neutral-300 flex justify-center items-center ${isDecoration} ${isGuide} ${isSelected}`}
