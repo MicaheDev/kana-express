@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type RefObject } from "react"
+import { useEffect, type RefObject } from "react"
 import { AiOutlineSound } from "react-icons/ai";
 import { LuEraser, LuRedo2, LuUndo2 } from "react-icons/lu"
 
@@ -6,18 +6,25 @@ interface CanvasHistory {
     imageData: ImageData | null;
 }
 
+interface DrawBoardProps {
+    canvasRef: RefObject<HTMLCanvasElement | null>;
+    ctx: CanvasRenderingContext2D | null;
+    setCtx: React.Dispatch<React.SetStateAction<CanvasRenderingContext2D | null>>;
+    isDrawing: boolean
+    setIsDrawing: React.Dispatch<React.SetStateAction<boolean>>;
+    history: CanvasHistory[]
+    setHistory: React.Dispatch<React.SetStateAction<CanvasHistory[]>>
+    historyIndex: number
+    setHistoryIndex: React.Dispatch<React.SetStateAction<number>>
+    audio: HTMLAudioElement
+    setAudio?: React.Dispatch<React.SetStateAction<HTMLAudioElement>>
+    gif: string,
+    setGif?: React.Dispatch<React.SetStateAction<string>>
+}
 
-export default function DrawBoard() {
 
-    const [audio] = useState(new Audio("/sounds/a.mp3")); // Crea una instancia del objeto Audio
+export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDrawing, history, setHistory, historyIndex, setHistoryIndex, audio, gif }: DrawBoardProps) {
 
-    const canvasRef: RefObject<HTMLCanvasElement | null> = useRef(null)
-    const [ctx, setCtx] = useState<CanvasRenderingContext2D | null>(null)
-    const [isDrawing, setIsDrawing] = useState(false)
-
-    //History
-    const [history, setHistory] = useState<CanvasHistory[]>([]);
-    const [historyIndex, setHistoryIndex] = useState(-1);
 
     useEffect(() => {
         const canvas = canvasRef.current
@@ -115,7 +122,7 @@ export default function DrawBoard() {
 
     return (
         <>
-            <div className="border relative border-neutral-300 rounded-xl bg-neutral-100">
+            <div className="border relative border-neutral-300 rounded-xl overflow-hidden bg-neutral-100">
                 <canvas
                     ref={canvasRef}
                     width={700}
@@ -125,12 +132,11 @@ export default function DrawBoard() {
                 ></canvas>
 
                 <img
-                    className="w-full h-full absolute inset-0 m-auto pointer-events-none opacity-20"
-                    src="/gifs/a.gif"
+                    className="w-full h-full absolute inset-0 m-auto pointer-events-none opacity-10"
+                    src={`/gifs/katakana/${gif}`}
                     alt="GIF animado" // Siempre es bueno añadir un texto alternativo
                 />
 
-                <audio src="/sounds/a.mp3" autoPlay></audio>
 
                 <button onClick={clearCanvas} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl absolute top-0 right-0 m-2">
                     <LuEraser />

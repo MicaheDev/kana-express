@@ -43,7 +43,7 @@ function Menu() {
 export default function Navbar() {
     return (
         <nav className="h-[80px] w-full flex items-center justify-between">
-            <Link className="text-lg" to="/">Kana Express</Link>            
+            <Link className="text-lg inline-flex items-center gap-2" to="/"><img className="w-6 h-6" src="/vite.svg" alt="" />Kana Express.</Link>            
             <Menu />
         </nav>
     )

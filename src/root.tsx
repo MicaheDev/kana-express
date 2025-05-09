@@ -5,7 +5,7 @@ import {
     Scripts,
     ScrollRestoration,
 } from "react-router";
-import Navbar from "./components/navbar";
+import Navbar from "./components/Navbar";
 
 
 export function Layout({
@@ -16,8 +16,8 @@ export function Layout({
     return (
         <html lang="es">
             <head>
-                <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-                <meta charSet="UTF-8" />
+            <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+            <meta charSet="UTF-8" />
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1.0"
