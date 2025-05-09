@@ -1,5 +1,5 @@
-import { useEffect, type RefObject } from "react"
-import { AiOutlineSound } from "react-icons/ai";
+import { useEffect, useState, type RefObject } from "react"
+import { AiOutlineEye, AiOutlineEyeInvisible, AiOutlineSound } from "react-icons/ai";
 import { LuEraser, LuRedo2, LuUndo2 } from "react-icons/lu"
 
 interface CanvasHistory {
@@ -26,6 +26,7 @@ interface DrawBoardProps {
 export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDrawing, history, setHistory, historyIndex, setHistoryIndex, audio, gif }: DrawBoardProps) {
 
 
+    const [isShowEx, setIsShowEx] = useState(true)
     useEffect(() => {
         const canvas = canvasRef.current
         if (!canvas) return;
@@ -132,7 +133,7 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
                 ></canvas>
 
                 <img
-                    className="w-full h-full absolute inset-0 m-auto pointer-events-none opacity-10"
+                    className={`w-full h-full absolute inset-0 m-auto pointer-events-none transition-opacity duration-300 ${isShowEx ? 'opacity-10' : 'opacity-0'}`}
                     src={`/gifs/katakana/${gif}`}
                     alt="GIF animado" // Siempre es bueno añadir un texto alternativo
                 />
@@ -142,10 +143,19 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
                     <LuEraser />
                 </button>
 
-                <button onClick={toggleSound} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl absolute bottom-0 right-0 m-2">
-                    <AiOutlineSound />
+                <div className="flex flex-col gap-2 items-center justify-center absolute bottom-0 right-0 m-2">
+                    <button onClick={() => setIsShowEx(!isShowEx)} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl">
 
-                </button>
+                        {isShowEx ? <AiOutlineEyeInvisible /> : <AiOutlineEye />
+                        }
+                    </button>
+                    <button onClick={toggleSound} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl">
+                        <AiOutlineSound />
+
+                    </button>
+
+
+                </div>
 
                 <div className="absolute top-0 left-0 m-2 inline-flex gap-2 items-center">
                     <button onClick={undo}
