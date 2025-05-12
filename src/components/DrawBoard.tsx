@@ -18,11 +18,14 @@ interface DrawBoardProps {
     setHistory: React.Dispatch<React.SetStateAction<CanvasHistory[]>>
     historyIndex: number
     setHistoryIndex: React.Dispatch<React.SetStateAction<number>>
-    audio: HTMLAudioElement
+    audio: HTMLAudioElement | null
     setAudio?: React.Dispatch<React.SetStateAction<HTMLAudioElement>>
     gif: string,
     setGif?: React.Dispatch<React.SetStateAction<string>>
     kanaType: string | undefined
+    onStrokeEnd: () => void; // Prop para notificar el fin de un trazo
+    clearCanvas(): void
+    handleStrokeUndo(): void
 }
 
 interface Point {
@@ -31,7 +34,7 @@ interface Point {
 }
 
 
-export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDrawing, history, setHistory, historyIndex, setHistoryIndex, audio, gif, kanaType }: DrawBoardProps) {
+export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDrawing, history, setHistory, historyIndex, setHistoryIndex, audio, gif, kanaType, onStrokeEnd, clearCanvas, handleStrokeUndo }: DrawBoardProps) {
 
 
     const [isShowEx, setIsShowEx] = useState(true)
@@ -49,12 +52,11 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
         // Inicializa el historial con un estado vacío
         setHistory([{ imageData: ctx.getImageData(0, 0, canvas.width, canvas.height) || null }]);
         setHistoryIndex(0);
-
-
     }, [ctx])
 
     const toggleSound = () => {
-        if(!audio.src === null)return;
+        if (!audio) return;
+        if (!audio.src === null) return;
         audio.play();
     };
 
@@ -76,6 +78,8 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
             if (!ctx) return;
             ctx.closePath();
             saveState();
+            onStrokeEnd() // Prop para notificar el fin de un trazo
+
         };
 
         document.addEventListener('mouseup', handleMouseUp);
@@ -84,7 +88,7 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
         return () => {
             document.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [ctx, isDrawing, saveState])
+    }, [ctx, isDrawing, saveState, onStrokeEnd])
 
 
     function startDraw(e: React.MouseEvent<HTMLCanvasElement>) {
@@ -100,9 +104,6 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
         ctx.lineJoin = 'round';
 
         ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY); // Mueve al primer punto
-
-
-
     }
 
     function drawing(e: React.MouseEvent<HTMLCanvasElement>) {
@@ -144,19 +145,14 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
         ctx.fill(path); // O ctx.stroke(path) si prefieres solo el contorno
     }
 
-    const clearCanvas = () => {
-        const canvas = canvasRef.current;
-        if (!ctx || !canvas) return;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        setHistory([{ imageData: ctx.getImageData(0, 0, canvas.width, canvas.height) || null }]);
-        setHistoryIndex(0);
-    };
+
 
     const undo = () => {
         if (historyIndex > 0 && ctx && canvasRef.current) {
             setHistoryIndex((prevIndex) => prevIndex - 1);
             const previousState = history[historyIndex - 1];
             ctx.putImageData(previousState.imageData!, 0, 0);
+            handleStrokeUndo()
         }
     };
 
@@ -165,12 +161,13 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
             setHistoryIndex((prevIndex) => prevIndex + 1);
             const nextState = history[historyIndex + 1];
             ctx.putImageData(nextState.imageData!, 0, 0);
+            onStrokeEnd()
         }
     };
 
     return (
         <>
-            <div className="border select-none relative border-neutral-300 rounded-xl overflow-hidden bg-neutral-100">
+            <div className="outline-2 border-2 border-neutral-300 select-none relative outline-neutral-300 rounded-2xl overflow-hidden bg-neutral-100">
                 <canvas
                     ref={canvasRef}
                     width={700}
@@ -200,7 +197,6 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
                     </button>
                     <button onClick={toggleSound} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl">
                         <AiOutlineSound />
-
                     </button>
 
 
