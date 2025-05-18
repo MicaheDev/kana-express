@@ -39,7 +39,7 @@ export default function LearnKana() {
 
     const [isStart, setIsStart] = useState(false)
 
-    const [progress, setProgress] = useState<{total: number, doIt:number, progress:number} | null>(null)
+    const [progress, setProgress] = useState<{ total: number, doIt: number, progress: number } | null>(null)
 
 
     useEffect(() => {
@@ -101,10 +101,12 @@ export default function LearnKana() {
     };
 
     function navigateToKana(row: number, col: number) {
-        setSelectedRow(row)
-        setSelectedCol(col)
-        clearCanvas();
-        changeMediaSources();
+        if (typeof kana[row][col] === "object") {
+            setSelectedRow(row)
+            setSelectedCol(col)
+            clearCanvas();
+            changeMediaSources();
+        }
     }
 
     function handleNext() {
@@ -207,7 +209,7 @@ export default function LearnKana() {
         strokesRef.current = 0
     }
 
-    function resetAll(){
+    function resetAll() {
         clearCanvas()
         resetProgress()
 
@@ -215,12 +217,12 @@ export default function LearnKana() {
         setSelectedCol(1)
     }
 
-    function resetProgress(){
+    function resetProgress() {
         let kanaList = [...kana]
 
-        kanaList.forEach((_,row) => {
+        kanaList.forEach((_, row) => {
             return kanaList[row].forEach((quiz, _) => {
-                if(typeof quiz === 'object'){
+                if (typeof quiz === 'object') {
                     quiz.todo = false
                 }
             })
@@ -240,7 +242,7 @@ export default function LearnKana() {
                 if (typeof quiz === 'object') {
                     total++
 
-                    if(quiz.todo){
+                    if (quiz.todo) {
                         doIt++
                     }
                 }
@@ -255,10 +257,10 @@ export default function LearnKana() {
         const result = Math.round(calc)
         console.log(`${result}%`)
 
-        if(doIt <= 0 && result <= 0){
+        if (doIt <= 0 && result <= 0) {
             setProgress(null)
-        }else {
-                    setProgress({total, doIt, progress: result})
+        } else {
+            setProgress({ total, doIt, progress: result })
 
         }
 
@@ -299,8 +301,8 @@ export default function LearnKana() {
                         ))}
                     </div>
 
-                    <button onClick={verifyProgress} className="bg-red-500 cursor-pointer justify-center opacity-100 rounded-xl uppercase font-bold hover:opacity-80 transition-opacity duration-300 inline-flex gap-2 items-center text-white px-4 py-2">
-                        <span>Finalizar Clase</span><MdOutlineTaskAlt />
+                    <button onClick={verifyProgress} className="bg-red-500 justify-center text-white uppercase">
+                        <span>Finalizar Clase</span><MdOutlineTaskAlt className="text-xl" />
                     </button>
                 </div>
 
@@ -332,7 +334,7 @@ export default function LearnKana() {
                     </div>
                 }
 
-                <button onClick={() => { setIsStart(true); changeMediaSources(); setProgress(null)}} className="bg-red-500 cursor-pointer justify-center opacity-100 rounded-xl uppercase font-bold hover:opacity-80 transition-opacity duration-300 inline-flex gap-2 items-center text-white px-4 py-2">
+                <button onClick={() => { setIsStart(true); changeMediaSources(); setProgress(null) }} className="bg-red-500 cursor-pointer justify-center opacity-100 rounded-xl uppercase font-bold hover:opacity-80 transition-opacity duration-300 inline-flex gap-2 items-center text-white px-4 py-2">
                     <span>Empezar</span><MdOutlineFlag />
                 </button>
             </div>}

@@ -1,23 +1,20 @@
-<svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_27_8)">
-<rect width="30" height="30" rx="5" fill="#FF425B"/>
-<g filter="url(#filter0_d_27_8)">
-<path d="M10.7415 11.8824L1.75724 8.2877L3.85683 6.08561L9.36526 8.60174L9.19537 8.63995L9.42866 8.39527L9.39859 8.56679L6.62296 3.18444L8.72256 0.982353L12.7411 9.78521L10.7415 11.8824ZM15.3556 21.2198L13.7226 22.9325L7.65814 17.1503L9.29116 15.4376L15.3556 21.2198ZM18.8388 19.6028L20.8384 17.5056L29.8227 21.1003L27.7231 23.3024L22.2146 20.7863L22.3845 20.7481L22.1512 20.9928L22.1813 20.8212L24.9569 26.2036L22.8573 28.4057L18.8388 19.6028Z" fill="white"/>
-</g>
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_69_15)">
+<rect width="80" height="80" rx="20" fill="url(#paint0_linear_69_15)"/>
+<rect width="20" height="11" transform="translate(30 40)" fill="white"/>
+<path d="M18.5 24L29.7583 30.5L13.2887 33.6929" stroke="black" stroke-width="3"/>
+<path d="M61.0166 24L49.7583 30.5L66.2279 33.6929" stroke="black" stroke-width="3"/>
+<path d="M32.2583 40H47.7583" stroke="black" stroke-width="3"/>
+<path d="M51.2583 53.2699H28.7128V39.6634H31.1347V50.5398H38.7526V40.3679H41.1745V50.5398H48.8364V39.4872H51.2583V53.2699Z" fill="black"/>
+<ellipse cx="40" cy="78" rx="34" ry="13" fill="white"/>
 </g>
 <defs>
-<filter id="filter0_d_27_8" x="-19.8591" y="-14.0176" width="69.6818" height="69.1186" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-<feOffset dy="5"/>
-<feGaussianBlur stdDeviation="10"/>
-<feComposite in2="hardAlpha" operator="out"/>
-<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.0576923 0 0 0 0 0.0733974 0 0 0 1 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_27_8"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_27_8" result="shape"/>
-</filter>
-<clipPath id="clip0_27_8">
-<rect width="30" height="30" rx="5" fill="white"/>
+<linearGradient id="paint0_linear_69_15" x1="40" y1="0" x2="40" y2="80" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFC088"/>
+<stop offset="1" stop-color="#FFA759"/>
+</linearGradient>
+<clipPath id="clip0_69_15">
+<rect width="80" height="80" rx="20" fill="white"/>
 </clipPath>
 </defs>
 </svg>

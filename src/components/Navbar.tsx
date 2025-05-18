@@ -5,6 +5,10 @@ import { Link } from "react-router";
 
 function Menu() {
     const menuItems = [
+         {
+            path: "/",
+            label: "Inicio",
+        },
         {
             path: "/learn",
             label: "Aprender",
@@ -30,7 +34,6 @@ function Menu() {
                                 isTransitioning ? "bg-neutral-100/80 opacity-90" : "", // Ligeramente diferente de pending
                             ].filter(Boolean).join(" ").concat(" px-4 py-2 bg-neutral-100/0 rounded-lg transition-all items-center flex")
                         }
-                        end
                     >
                         {item.label}
                     </NavLink>
@@ -43,7 +46,7 @@ function Menu() {
 export default function Navbar() {
     return (
         <nav className="h-[80px] w-full flex items-center justify-between">
-            <Link className="text-lg inline-flex items-center gap-2" to="/"><img className="w-6 h-6" src="/vite.svg" alt="" />Kana Express.</Link>            
+            <Link className="text-lg inline-flex items-center gap-2" to="/"><img className="w-8 h-8" src="/vite.svg" alt="" />Kana Express.</Link>            
             <Menu />
         </nav>
     )
