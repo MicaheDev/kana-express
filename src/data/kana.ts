@@ -14,6 +14,17 @@ type KanaPractice = {
     [key: string]: string
 }
 
+export enum Modes {
+    hiragana = 'hiragana',
+    katakana = 'katakana'
+}
+
+export enum Variations {
+    mainKana = 'mainKana',
+    dakutenKana = 'dakutenKana',
+    combinationKana = 'combinationKana'
+}
+
 
 export const HiraganaList: KanaPractice = {
     "あ": "a", "い": "i", "う": "u", "え": "e", "お": "o",
@@ -27,11 +38,17 @@ export const HiraganaList: KanaPractice = {
     "ら": "ra", "り": "ri", "る": "ru", "れ": "re", "ろ": "ro",
     "わ": "wa", "を": "wo",
     "ん": "n",
+};
+
+export const HiraganaDakutenList: KanaPractice = {
     "が": "ga", "ぎ": "gi", "ぐ": "gu", "げ": "ge", "ご": "go",
     "ざ": "za", "じ": "ji", "ず": "zu", "ぜ": "ze", "ぞ": "zo",
     "だ": "da", "ぢ": "ji", "づ": "zu", "で": "de", "ど": "do",
     "ば": "ba", "び": "bi", "ぶ": "bu", "べ": "be", "ぼ": "bo",
     "ぱ": "pa", "ぴ": "pi", "ぷ": "pu", "ぺ": "pe", "ぽ": "po",
+}
+
+export const HiraganaCombinationList: KanaPractice = {
     "きゃ": "kya", "きゅ": "kyu", "きょ": "kyo",
     "しゃ": "sha", "しゅ": "shu", "しょ": "sho",
     "ちゃ": "cha", "ちゅ": "chu", "ちょ": "cho",
@@ -39,7 +56,7 @@ export const HiraganaList: KanaPractice = {
     "ひゃ": "hya", "ひゅ": "hyu", "ひょ": "hyo",
     "みゃ": "mya", "みゅ": "myu", "みょ": "myo",
     "りゃ": "rya", "りゅ": "ryu", "りょ": "ryo"
-};
+}
 
 export const KatakanaList = {
     "ア": "a", "イ": "i", "ウ": "u", "エ": "e", "オ": "o",
@@ -53,11 +70,17 @@ export const KatakanaList = {
     "ラ": "ra", "リ": "ri", "ル": "ru", "レ": "re", "ロ": "ro",
     "ワ": "wa", "ヲ": "wo",
     "ン": "n",
+};
+
+export const KatakanaDakutenList: KanaPractice = {
     "ガ": "ga", "ギ": "gi", "グ": "gu", "ゲ": "ge", "ゴ": "go",
     "ザ": "za", "ジ": "ji", "ズ": "zu", "ゼ": "ze", "ゾ": "zo",
     "ダ": "da", "ヂ": "ji", "ヅ": "zu", "デ": "de", "ド": "do",
     "バ": "ba", "ビ": "bi", "ブ": "bu", "ベ": "be", "ボ": "bo",
     "パ": "pa", "ピ": "pi", "プ": "pu", "ペ": "pe", "ポ": "po",
+}
+
+export const KatakanaCombinationList: KanaPractice = {
     "キャ": "kya", "キュ": "kyu", "キョ": "kyo",
     "シャ": "sha", "シュ": "shu", "ショ": "sho",
     "チャ": "cha", "チュ": "chu", "チョ": "cho",
@@ -65,7 +88,7 @@ export const KatakanaList = {
     "ヒャ": "hya", "ヒュ": "hyu", "ヒョ": "hyo",
     "ミャ": "mya", "ミュ": "myu", "ミョ": "myo",
     "リャ": "rya", "リュ": "ryu", "リョ": "ryo"
-};
+}
 
 
 

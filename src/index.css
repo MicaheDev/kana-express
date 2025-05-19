@@ -17,17 +17,52 @@
 @theme {
     --color-beige-400: oklch(80.11% 0.140 60.19);
     --color-gray-700: oklch(0.4423 0 0);
+    --color-pink-400: oklch(0.9047 0.0495 16.57);
     --font-departure_mono: "Departure Mono";
     --font-jpn: "DotGothic16"
 }
 
 
+@layer {
+    .active::after {
+        content: "*";
+        position: absolute;
+        top: -18px;
+        right: -8px;
+        /* Ajusta la distancia del texto */
+        font-size: 2em;
+        /* Opcional: Ajusta el tamaño del asterisco */
+        color: inherit;
+        /* Opcional: Hereda el color del texto */
+    }
 
+    .active {
+        @apply bg-neutral-100/100 relative;
+    }
+
+    button,
+    .btn {
+        @apply py-2 px-4 rounded-xl inline-flex items-center gap-2 font-bold cursor-pointer transition-all duration-200 hover:scale-95;
+
+
+
+    }
+
+    .select-box.check {
+        @apply bg-gray-700 text-white!;
+    }
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    @apply text-gray-700;
+}
 
 body {
     @apply text-gray-700 font-departure_mono;
-}
-
-button {
-    @apply py-2 px-4 rounded-xl inline-flex items-center gap-2 font-bold cursor-pointer transition-all duration-200 hover:scale-95;
 }

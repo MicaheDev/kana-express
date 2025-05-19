@@ -117,7 +117,7 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
             size: 30, // Grosor del trazo
             thinning: 0.3, // Influencia de la presión en el grosor (0: sin influencia; > 0: adelgaza con baja presión, engrosa con alta presión/lentitud).
             smoothing: 0, // Suavizado del trazo (0: muy suave; > 0: esquina cuadradas o rotas) 
-            streamline: 0.7, // Estabilizador del trazo (0: desactivado, mano alzada; > 0: activado, mayor correción)
+            streamline: 0.10, // Estabilizador del trazo (0: desactivado, mano alzada; > 0: activado, mayor correción)
         });
 
 
@@ -185,18 +185,18 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
                 }
 
 
-                <button onClick={clearCanvas} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl absolute top-0 right-0 m-2">
+                <button onClick={clearCanvas} className="bg-white w-[60px] absolute top-0 right-0 m-2 h-[60px] text-2xl outline outline-gray-700 justify-center">
                     <LuEraser />
                 </button>
 
                 <div className="flex flex-col gap-2 items-center justify-center absolute bottom-0 right-0 m-2">
-                    <button onClick={() => setIsShowEx(!isShowEx)} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl">
+                    <button onClick={() => setIsShowEx(!isShowEx)} className="bg-white w-[60px] h-[60px] text-2xl outline outline-gray-700 justify-center">
 
                         {isShowEx ? <AiOutlineEyeInvisible /> : <AiOutlineEye />
                         }
                     </button>
-                    <button onClick={toggleSound} className="w-[50px] cursor-pointer h-[50px] bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl">
-                        <AiOutlineSound />
+                    <button onClick={toggleSound} className="bg-white w-[60px] text-2xl h-[60px] outline outline-gray-700 justify-center">
+                        <AiOutlineSound/>
                     </button>
 
 
@@ -205,12 +205,12 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
                 <div className="absolute top-0 left-0 m-2 inline-flex gap-2 items-center">
                     <button onClick={undo}
                         disabled={historyIndex <= 0}
-                        className="w-[50px] cursor-pointer h-[50px] disabled:opacity-30  bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl">
+                        className="bg-white w-[60px] text-2xl h-[60px] outline outline-gray-700 justify-center disabled:opacity-30">
                         <LuUndo2 />
                     </button>
                     <button onClick={redo}
                         disabled={historyIndex >= history.length - 1}
-                        className={`w-[50px] cursor-pointer h-[50px] disabled:opacity-30 bg-white text-black shadow inline-flex justify-center items-center rounded-full border hover:opacity-60 opacity-100 transition-opacity duration-300 border-neutral-300 text-2xl`}>
+                        className="bg-white w-[60px] text-2xl h-[60px] outline outline-gray-700 justify-center disabled:opacity-30">
                         <LuRedo2 />
                     </button>
                 </div>

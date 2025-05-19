@@ -11,7 +11,7 @@ interface CanvasHistory {
 
 
 
-export default function LearnKana() {
+export default function LearnDetail() {
 
 
     const { kana: kanaType } = useParams<{ kana: string }>();
@@ -270,8 +270,8 @@ export default function LearnKana() {
     }
 
     return (
-        <>
-            {isStart ? <div className="w-full h-[80svh] flex justify-center gap-4">
+        <div className="flex justify-center items-center w-full h-[80vh]">
+            {isStart ? <div className="w-full  flex justify-center gap-4">
                 <div className="flex flex-col gap-2">
                     <div className="w-min h-min outline-2 outline-neutral-300 flex flex-col overflow-hidden rounded-xl select-none">
                         {/* Filas*/}
@@ -279,14 +279,14 @@ export default function LearnKana() {
                             <div className="flex" key={`row-${row + 1}`}>
                                 {/* Columnas */}
                                 {kana[row].map((item, col) => {
-                                    const isSelected = selectedRow === row && selectedCol === col ? "bg-blue-300 select-none" : ""
+                                    const isSelected = selectedRow === row && selectedCol === col ? "bg-pink-400 select-none" : ""
                                     const isGuide = row === 0 || col === 0 ? 'bg-neutral-100 select-none' : "select-text";
                                     const isDecoration = row === 0 && col === 0 ? 'bg-neutral-300 select-none' : '';
                                     const isTodo = typeof item === 'object' && item.todo ? 'bg-green-200' : ''
                                     return (
                                         <div
                                             onClick={() => navigateToKana(row, col)}
-                                            className={`w-[50px] h-[50px] border border-neutral-300 flex justify-center items-center ${isDecoration} ${isGuide} ${isSelected} ${isTodo}`}
+                                            className={`w-[50px] h-[50px] font-jpn border border-neutral-300 flex justify-center items-center ${isDecoration} ${isGuide} ${isSelected} ${isTodo}`}
                                             key={`col-${col + 1}`}
                                         >
                                             {typeof item === 'object' && item !== null ? (
@@ -301,29 +301,29 @@ export default function LearnKana() {
                         ))}
                     </div>
 
-                    <button onClick={verifyProgress} className="bg-red-500 justify-center text-white uppercase">
-                        <span>Finalizar Clase</span><MdOutlineTaskAlt className="text-xl" />
+                    <button onClick={verifyProgress} className="bg-pink-400 outline justify-center outline-gray-700">
+                        <span>Finalizar sesión</span><MdOutlineTaskAlt className="text-xl" />
                     </button>
                 </div>
 
                 <div className="flex flex-col gap-2">
                     <DrawBoard handleStrokeUndo={handleStrokeUndo} clearCanvas={clearCanvas} onStrokeEnd={handleStrokeEnd} kanaType={kanaType} canvasRef={canvasRef} ctx={ctx} setCtx={setCtx} isDrawing={isDrawing} setIsDrawing={setIsDrawing} history={history} setHistory={setHistory} historyIndex={historyIndex} setHistoryIndex={setHistoryIndex} audio={audio} gif={gif} />
                     <div className="flex items-center gap-2 justify-between">
-                        <button onClick={handlePrev} className="bg-black cursor-pointer opacity-100 rounded-full hover:opacity-80 transition-opacity duration-300 inline-flex gap-2 items-center text-white px-4 py-2">
+                        <button onClick={handlePrev} className="bg-white outline outline-gray-700 text-gray-700">
                             <MdOutlineArrowBack /> <span>Volver</span>
                         </button>
                         <div className="flex gap-2 items-center">
-                            <button onClick={handleNext} className="bg-black cursor-pointer opacity-100 rounded-full hover:opacity-80 transition-opacity duration-300 inline-flex gap-2 items-center text-white px-4 py-2">
+                            <button onClick={handleNext} className="bg-white outline outline-gray-700 text-gray-700">
                                 <span>Saltar</span><MdOutlineArrowForward />
                             </button>
-                            <button onClick={verifyKana} className="bg-green-500 font-bold cursor-pointer opacity-100 rounded-full hover:opacity-80 transition-opacity duration-300 inline-flex gap-2 items-center text-white px-4 py-2">
+                            <button onClick={verifyKana} className="bg-green-200 text-gray-700 outline outline-gray-700">
                                 <span>Verificar</span><MdCheck />
                             </button>
                         </div>
                     </div>
 
                 </div>
-            </div> : <div className="h-[80svh] w-full flex justify-center items-center flex-col">
+            </div> : <div className="h-[80svh] w-full flex justify-center gap-4 items-center flex-col">
 
                 <h1 className="font-bold uppercase text-2xl">Aprender {kanaType}</h1>
 
@@ -334,10 +334,10 @@ export default function LearnKana() {
                     </div>
                 }
 
-                <button onClick={() => { setIsStart(true); changeMediaSources(); setProgress(null) }} className="bg-red-500 cursor-pointer justify-center opacity-100 rounded-xl uppercase font-bold hover:opacity-80 transition-opacity duration-300 inline-flex gap-2 items-center text-white px-4 py-2">
-                    <span>Empezar</span><MdOutlineFlag />
+                <button onClick={() => { setIsStart(true); changeMediaSources(); setProgress(null) }} className="bg-pink-400 outline outline-gray-700">
+                    <span>Empezar sesión</span><MdOutlineFlag className="text-xl" />
                 </button>
             </div>}
-        </>
+        </div>
     );
 }
