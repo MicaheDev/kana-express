@@ -31,6 +31,8 @@ export default function PracticeModule({ mode, variations, onReset }: PracticeMo
   const [errorCount, setErrorCount] = useState<number>(0);
   const [answered, setAnswered] = useState<string[]>([]);
 
+  console.log(progress)
+
   useEffect(() => {
     setQuizList([]);
     setAnswered([]);
