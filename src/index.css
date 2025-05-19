@@ -1,22 +1,31 @@
 @import "tailwindcss";
 
 
+
+@font-face {
+    font-family: 'Departure Mono';
+    src: url('/fonts/DepartureMono-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'DotGothic16';
+    src: url('/fonts/DotGothic16-Regular.ttf') format('trueType');
+}
+
+
+
 @theme {
     --color-beige-400: oklch(80.11% 0.140 60.19);
+    --color-gray-700: oklch(0.4423 0 0);
+    --font-departure_mono: "Departure Mono";
+    --font-jpn: "DotGothic16"
 }
 
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    @apply text-gray-800;
-}
+
 
 body {
-    @apply text-gray-700;
+    @apply text-gray-700 font-departure_mono;
 }
 
 button {

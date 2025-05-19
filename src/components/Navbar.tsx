@@ -3,6 +3,17 @@
 import { NavLink } from "react-router";
 import { Link } from "react-router";
 
+
+export default function Navbar() {
+    return (
+        <nav className="h-[80px] w-full flex items-center justify-between border-b border-gray-700">
+            <Link className="text-lg inline-flex flex-col" to="/">Kana Express. <span className="font-jpn text-sm">かなエクスプレス</span></Link>            
+            <Menu />
+        </nav>
+    )
+}
+
+
 function Menu() {
     const menuItems = [
          {
@@ -43,13 +54,5 @@ function Menu() {
     )
 }
 
-export default function Navbar() {
-    return (
-        <nav className="h-[80px] w-full flex items-center justify-between">
-            <Link className="text-lg inline-flex items-center gap-2" to="/"><img className="w-8 h-8" src="/vite.svg" alt="" />Kana Express.</Link>            
-            <Menu />
-        </nav>
-    )
-}
 
 

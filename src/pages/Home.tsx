@@ -27,7 +27,13 @@ export default function Home() {
 
     <div className="flex flex-col w-full h-full">
 
-      <div className="w-full h-[80vh] flex justify-between items-center gap-[40px]">
+      <div className="w-full h-[80vh] flex justify-center items-center relative rounded-4xl overflow-hidden">
+        <div className="absolute w-full h-full z-[10] bg-gradient-to-b from-black/30 to-white" />
+
+        <img className="rounded-4xl w-full h-full object-cover" src="/hero2.jpeg" alt="" />
+      </div>
+
+      <div className="w-full h-[100vh] flex justify-between items-center gap-[40px]">
         <div className="relative w-1/2 rounded-4xl overflow-hidden">
           <div className="absolute w-full h-full z-[10] bg-gradient-to-b from-black/30 to-white" />
           <img src="/hero.jpg" alt="" className="w-full h-full object-contain" />
