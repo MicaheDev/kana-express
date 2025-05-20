@@ -26,13 +26,10 @@ export default function Home() {
   return (
 
     <div className="flex flex-col w-full h-full">
-
-    
-
-      <div className="w-full h-[80vh] flex justify-between items-center gap-[40px]">
+      <div className="w-full min-h-[80svh] h-full flex justify-between items-center gap-[40px]">
         <div className="relative w-1/2 rounded-4xl overflow-hidden">
           <div className="absolute w-full h-full z-[10] bg-gradient-to-b from-pink-400/30 to-white" />
-          <img src="/hero.jpg" alt="" className="w-full h-full object-contain" />
+          <img src="/hero.jpg" alt="" className="w-full h-full object-cover" />
         </div>
 
 
@@ -44,7 +41,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="h-[100vh] w-full flex flex-col gap-8 justify-center">
+      <div className="min-h-[100svh] h-full w-full flex flex-col gap-8 justify-center">
         <div className="flex flex-col gap-4 w-1/2">
           <h1 className="text-4xl font-bold uppercase ">Silabario Japones</h1>
           <p className=" text-justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure reiciendis neque id! Quae et, quia, totam doloremque quisquam distinctio consectetur eius earum amet beatae atque, nostrum nihil eum voluptatibus quod.</p>

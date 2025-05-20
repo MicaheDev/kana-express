@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')!).render(
         <BrowserRouter>
             < >
                 <Navbar />
-                <main className="max-w-[1280px] mx-auto min-h-[100vh]">
+                <main className="max-w-[1280px] mx-auto min-h-[100svh] px-4">
                     <Routes>
                         <Route index path="/" element={<Home />} />
                         <Route path="/learn" element={<Learn />} />

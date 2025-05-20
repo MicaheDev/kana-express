@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router";
 export default function Footer() {
     return (
 
-        <footer className="h-[80px] w-full border-b border-gray-700 bg-gray-700 text-white ">
+        <footer className="h-[80px] w-full border-b border-gray-700 bg-gray-700 text-white px-4">
             <div className="max-w-[1280px] mx-auto flex justify-between items-center w-full h-full">
                 <Link className="text-lg inline-flex flex-col" to="/">Kana Express. <span className="font-jpn text-sm">かなエクスプレス</span></Link>
                 <Menu />

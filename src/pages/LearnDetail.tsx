@@ -270,7 +270,7 @@ export default function LearnDetail() {
     }
 
     return (
-        <div className="flex justify-center items-center w-full h-[80vh]">
+        <div className="flex justify-center items-center w-full min-h-[80svh] h-full">
             {isStart ? <div className="w-full  flex justify-center gap-4">
                 <div className="flex flex-col gap-2">
                     <div className="w-min h-min outline outline-gray-700 flex flex-col overflow-hidden rounded-xl select-none">

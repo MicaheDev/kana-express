@@ -31,7 +31,7 @@ export default function PracticeMenu({
 }: PracticeMenuProps) {
     return (
         <>
-            <div className="flex flex-col h-[80vh] items-center justify-center gap-8">
+            <div className="flex flex-col min-h-[80svh] h-full items-center justify-center gap-8">
                 <div className="flex flex-col gap-2 items-center">
                     <h1 className="uppercase text-2xl font-bold">
                         Selecciona un silabario para practicar
@@ -59,7 +59,7 @@ export default function PracticeMenu({
                                 onChange={() => setSelectedMode(item.name as Modes)}
                             />
                             <div className="flex justify-center items-center w-full h-full py-6 px-8">
-                                <p className="uppercase font-bold w-full text-center text-6xl">
+                                <p className="uppercase font-bold w-full text-center text-3xl">
                                     {item.label}
                                 </p>
                             </div>
@@ -92,7 +92,7 @@ export default function PracticeMenu({
                             onChange={(e) => setSelectAllVariations(e.currentTarget.checked)}
                         />
                         <div className="flex justify-center items-center w-full h-full py-6 px-8">
-                            <p className="uppercase font-bold w-full text-center text-4xl">
+                            <p className="uppercase font-bold w-full text-center text-2xl">
                                 Todos los kana
                             </p>
                         </div>
@@ -116,7 +116,7 @@ export default function PracticeMenu({
                                     onChange={() => onVariationChange(item.name)}
                                 />
                                 <div className="flex justify-center items-center w-full h-full py-6 px-8">
-                                    <p className="uppercase font-bold w-full text-center text-2xl">
+                                    <p className="uppercase font-bold w-full text-center text-xl">
                                         {item.label}
                                     </p>
                                 </div>

@@ -21,7 +21,7 @@ export default function Learn() {
   ]
 
   return (
-    <div className="flex flex-col h-[80vh] items-center justify-center gap-8">
+    <div className="flex flex-col min-h-[80svh] h-full items-center justify-center gap-8">
 
       <div className="flex flex-col gap-2 items-center"><h1 className="uppercase text-2xl font-bold">Selecciona un silabario para aprender</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi earum adipisci incidunt magni hic asperiores ipsa eaque magnam nulla dolore.</p>
