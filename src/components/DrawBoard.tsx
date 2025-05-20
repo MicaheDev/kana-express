@@ -165,9 +165,18 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
         }
     };
 
+    function getName(name: string) {
+        // \. : Matches a literal dot
+        // [^.]+ : Matches one or more characters that are NOT a dot
+        // $ : Matches the end of the string
+        return name.replace(/\.[^/.]+$/, "");
+    }
+
+
+
     return (
         <>
-            <div className="outline-2 border-2 border-neutral-300 select-none relative outline-neutral-300 rounded-2xl overflow-hidden bg-neutral-100">
+            <div className="outline outline-gray-700 select-none relative rounded-2xl overflow-hidden bg-neutral-100">
                 <canvas
                     ref={canvasRef}
                     width={700}
@@ -178,7 +187,7 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
 
                 {
                     gif && <img
-                        className={`w-full h-full absolute inset-0 m-auto pointer-events-none transition-opacity duration-300 ${isShowEx ? 'opacity-10' : 'opacity-0'}`}
+                        className={`w-full h-full object-contain absolute inset-0 m-auto pointer-events-none transition-opacity duration-300 ${isShowEx ? 'opacity-10' : 'opacity-0'}`}
                         src={`/gifs/${kanaType === 'hiragana' ? 'hiragana' : 'katakana'}/${gif}`}
                         alt="GIF animado" // Siempre es bueno añadir un texto alternativo
                     />
@@ -189,14 +198,14 @@ export default function DrawBoard({ canvasRef, ctx, setCtx, isDrawing, setIsDraw
                     <LuEraser />
                 </button>
 
-                <div className="flex flex-col gap-2 items-center justify-center absolute bottom-0 right-0 m-2">
+                <div className="flex flex-col gap-2 items-end justify-center absolute bottom-0 right-0 m-2">
                     <button onClick={() => setIsShowEx(!isShowEx)} className="bg-white w-[60px] h-[60px] text-2xl outline outline-gray-700 justify-center">
 
                         {isShowEx ? <AiOutlineEyeInvisible /> : <AiOutlineEye />
                         }
                     </button>
-                    <button onClick={toggleSound} className="bg-white w-[60px] text-2xl h-[60px] outline outline-gray-700 justify-center">
-                        <AiOutlineSound/>
+                    <button onClick={toggleSound} className="bg-white  text-2xl h-[60px] outline outline-gray-700 justify-center">
+                        <AiOutlineSound /><span className="text-lg">{`"${getName(gif)}"`}</span>
                     </button>
 
 

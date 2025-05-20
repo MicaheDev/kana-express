@@ -273,7 +273,7 @@ export default function LearnDetail() {
         <div className="flex justify-center items-center w-full h-[80vh]">
             {isStart ? <div className="w-full  flex justify-center gap-4">
                 <div className="flex flex-col gap-2">
-                    <div className="w-min h-min outline-2 outline-neutral-300 flex flex-col overflow-hidden rounded-xl select-none">
+                    <div className="w-min h-min outline outline-gray-700 flex flex-col overflow-hidden rounded-xl select-none">
                         {/* Filas*/}
                         {kana.map((_, row) => (
                             <div className="flex" key={`row-${row + 1}`}>
